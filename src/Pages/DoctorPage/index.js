@@ -1,38 +1,52 @@
 import axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import TableComponent from "../../Component/Table";
+import Logout from "../../Component/Logout";
+import { ToastContainer, toast, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const API_URL = "http://localhost:4000";
 
 const DovtorPage = () => {
     const [data, setData] = useState(null);
-    const location = useLocation();
+    const token = localStorage.getItem("accessToken");
+    
+    toast.success("Login successful", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+    });
 
     const addDateInData = (arrayPets, arrayVisits) => {
-      let latestDates = {};
+        let latestDates = {};
 
-      // Lặp qua mảng lịch sử khám bệnh để tìm ngày gần nhất cho mỗi petId
-      arrayVisits.forEach(record => {
-          if (!latestDates[record.petId] || new Date(record.date) > new Date(latestDates[record.petId])) {
-              latestDates[record.petId] = record.date;
-          }
-      });
-      
-      // Thêm khóa mới là "date" vào mảng pets
-      arrayPets.forEach(pet => {
-          pet.date = latestDates[pet.id] || null;
-      });
+        // Lặp qua mảng lịch sử khám bệnh để tìm ngày gần nhất cho mỗi petId
+        arrayVisits.forEach((record) => {
+            if (!latestDates[record.petId] || new Date(record.date) > new Date(latestDates[record.petId])) {
+                latestDates[record.petId] = record.date;
+            }
+        });
 
-      return arrayPets
+        // Thêm khóa mới là "date" vào mảng pets
+        arrayPets.forEach((pet) => {
+            pet.date = latestDates[pet.id] || null;
+        });
+
+        return arrayPets;
     };
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const headers = {
-                    authorization: `Bearer ${location.state}`,
+                    authorization: `Bearer ${token}`,
                 };
 
                 const responsePets = await axios.get(`${API_URL}/pets`, { headers });
@@ -47,8 +61,7 @@ const DovtorPage = () => {
                     return { ...pet, ownerId: responseUsers.data[ownerId - 1].name };
                 });
 
-                addDateInData(dataReal, responseVisits.data)
-                console.log(addDateInData(dataReal, responseVisits.data))
+                addDateInData(dataReal, responseVisits.data);
                 setData(dataReal);
             } catch (error) {
                 console.log(error);
@@ -58,7 +71,13 @@ const DovtorPage = () => {
         fetchData();
     }, []);
 
-    return <div>{data && <TableComponent data={data} />}</div>;
+    return (
+        <div>
+            <ToastContainer autoClose={5000} position="top-right"/>
+            <Logout/>
+            {data && <TableComponent data={data} />}
+        </div>
+    );
 };
 
 export default DovtorPage;
