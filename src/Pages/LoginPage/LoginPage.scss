@@ -1,24 +1,20 @@
 .App {
     display: flex;
     flex-direction: column;
-    align-items: center;
     margin-top: 50px;
   
-    form {
+    .form {
       display: flex;
       flex-direction: column;
       align-items: center;
   
-      div {
-        margin-bottom: 15px;
-        width: 300px;
-  
-        label {
+ 
+        .email, .password{
           margin-bottom: 5px;
           font-weight: bold;
         }
   
-        input {
+        .email-input, .password-input {
           width: 100%;
           padding: 8px;
           border: 1px solid #ccc;
@@ -40,5 +36,5 @@
         }
       }
     }
-  }
+  
   

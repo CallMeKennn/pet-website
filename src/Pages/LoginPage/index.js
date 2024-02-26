@@ -56,14 +56,14 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
     return (
         <div>
             <div className="App">
-                <form onSubmit={handleSubmit}>
+                <form className="form" onSubmit={handleSubmit}>
                     <div>
                         <label className="email">Email:</label>
-                        <input type="text" value={email} onChange={handleUsernameChange} />
+                        <input className="email-input" type="text" value={email} onChange={handleUsernameChange} />
                     </div>
                     <div>
                         <label className="password">Password:</label>
-                        <input type="password" value={password} onChange={handlePasswordChange} />
+                        <input className="password-input" type="password" value={password} onChange={handlePasswordChange} />
                     </div>
                     <button className="btn-login" type="submit">Login</button>
                 </form>
