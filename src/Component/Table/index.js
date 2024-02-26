@@ -136,7 +136,7 @@ const TableComponent = ({ data }) => {
                                 <tr key={pet.id}>
                                     <td>{index + 1}</td>
                                     <td>
-                                        <Link state={{ id: pet.id }} to="/petdetail">
+                                        <Link className="link" state={{ id: pet.id }} to="/petdetail">
                                             {pet.name}
                                         </Link>
                                     </td>
