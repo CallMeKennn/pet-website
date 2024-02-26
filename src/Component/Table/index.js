@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Table, Container, Form, InputGroup, } from "react-bootstrap";
+import { Table, Container, Form, InputGroup } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Table.scss";
 import { Link } from "react-router-dom";
@@ -136,13 +136,25 @@ const TableComponent = ({ data }) => {
                                 <tr key={pet.id}>
                                     <td>{index + 1}</td>
                                     <td>
-                                        <Link state={{id: pet.id}} to="/petdetail">{pet.name}</Link>
+                                        <Link state={{ id: pet.id }} to="/petdetail">
+                                            {pet.name}
+                                        </Link>
                                     </td>
                                     <td>{pet.petType}</td>
                                     <td>{pet.ownerId}</td>
                                     <td>{pet.dob}</td>
                                     <td>{pet.date}</td>
-                                    <td className={`${pet.status === "alive" ? "alive" : "deceased"}`}>{pet.status}</td>
+                                    <td
+                                        className={`${
+                                            pet.status === "alive"
+                                                ? "alive"
+                                                : pet.status === "deceased"
+                                                ? "deceased"
+                                                : "missing"
+                                        }`}
+                                    >
+                                        {pet.status}
+                                    </td>
                                 </tr>
                             ))}
                     </tbody>

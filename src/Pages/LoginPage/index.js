@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import "./LoginPage.scss"
 
 const API_URL = "http://localhost:4000";
 
@@ -31,11 +32,10 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
             })
             .then((response) => {
                 setIsLoggedIn(true);
-                
 
                 let url = response.data.access_token === DOCTOR_ROLE ? "/doctor" : "/user";
                 localStorage.setItem("accessToken", response.data.access_token);
-                navigate(url);
+                navigate(url, { state: { id: response.data.id } });
             })
             .catch((error) => {
                 setIsLoggedIn(false);
@@ -58,14 +58,14 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
             <div className="App">
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <label>Email:</label>
+                        <label className="email">Email:</label>
                         <input type="text" value={email} onChange={handleUsernameChange} />
                     </div>
                     <div>
-                        <label>Password:</label>
+                        <label className="password">Password:</label>
                         <input type="password" value={password} onChange={handlePasswordChange} />
                     </div>
-                    <button type="submit">Login</button>
+                    <button className="btn-login" type="submit">Login</button>
                 </form>
 
                 {isLoggedIn || <ToastContainer autoClose={5000} position="top-right" />}
